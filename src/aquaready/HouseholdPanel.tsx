@@ -1223,7 +1223,8 @@ function HouseholdActiveView({
   // Whole integer days (no decimals; if less than 1 whole day, do not display fractional days)
   const wholeDaysOnHand = Math.floor(daysOnHand);
 
-  const targetGoal = plan.targetRange[0];
+  // Same goal as the pacing plan (top of the range): under-storing costs more than over-storing (spec §7)
+  const targetGoal = plan.targetRange[1];
   const progressPct = useMemo(() => {
     return Math.min(100, Math.round((household.stored / Math.max(1, targetGoal)) * 100));
   }, [household.stored, targetGoal]);

@@ -246,7 +246,9 @@ export function buildPlan(p: PlanInput) {
 
   const capacity = p.storageCapacityLiters ?? STORAGE_LITERS[p.storage] ?? 200;
   const storable = Math.min(targetHigh, capacity); // aim at the dry case: under-storing costs more
-  const shortfall = Math.max(0, targetHigh - capacity);
+  // What containers can't hold. Count water already stored: logging more than the listed containers
+  // means the family has containers we don't know about, so trust the log.
+  const shortfall = Math.max(0, targetHigh - Math.max(capacity, p.storedLiters));
 
   const months = monthsToDrySpell(p.observedRatios, p.forecastRatios);
   // Dry spell is reached in month forecastRatios[months-1]; count days from today to the 1st of that month.

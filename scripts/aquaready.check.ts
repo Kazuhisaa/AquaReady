@@ -118,6 +118,15 @@ assert.deepEqual(calm.map((p) => p.horizon), ['long_term']);
 console.log('aquaready: all checks passed', { target: plan.targetRange, every3Days: plan.litersEvery3Days, severity: plan.severity });
 
 
+// Shortfall must count water already stored: logging more than the listed containers hold
+// (i.e. the family has unlisted containers) must not keep saying "still need X L".
+const smallBox = { ...base, storage: 'small' as const, storageCapacityLiters: 240 };
+const need = buildPlan(smallBox).targetRange[1];
+assert.equal(buildPlan({ ...smallBox, storedLiters: 0 }).shortfall, need - 240);
+assert.equal(buildPlan({ ...smallBox, storedLiters: 300 }).shortfall, need - 300);
+assert.equal(buildPlan({ ...smallBox, storedLiters: need + 100 }).shortfall, 0);
+assert.equal(buildPlan({ ...smallBox, storedLiters: need + 100 }).litersEvery3Days, 0);
+
 // Calendar: forecast starts with the current month; dry spell reached in December → days from today to Dec 1
 const cal = buildPlan({ ...base, observedRatios: [1.0], forecastRatios: [1.0, 0.7, 0.7, 0.7], asOf: '2026-09', today: new Date(Date.UTC(2026, 8, 24)) });
 assert.equal(cal.impactMonth, '2026-12');
