@@ -59,9 +59,9 @@ export function RisksView({ plan, cond, stored, lang, onOpenPlan }: {
   if (cond.risk.ecoZ <= -1) why.push(['🌱', en
     ? 'The ground is dry, so wells and water pumps can drop faster.'
     : 'Tuyo na ang lupa, kaya mas mabilis bumaba ang tubig sa balon at poso.']);
-  if (cond.risk.heatIndexC >= 41) why.push(['🌡️', en
-    ? `It feels very hot (about ${Math.round(cond.risk.heatIndexC)}°C), so everyone needs to drink more.`
-    : `Sobrang init (pakiramdam ay mga ${Math.round(cond.risk.heatIndexC)}°C), kaya mas maraming tubig ang kailangang inumin.`]);
+  if (cond.risk.heatIndexC >= 42) why.push(['🌡️', en
+    ? `Dangerous heat this week (heat index up to ${Math.round(cond.risk.heatIndexC)}°C), so everyone needs to drink more.`
+    : `Delikadong init ngayong linggo (heat index hanggang ${Math.round(cond.risk.heatIndexC)}°C), kaya mas maraming tubig ang kailangang inumin.`]);
   const sl = cond.projection2050?.seaLevel2050;
   if (cond.coastal && (plan.severity !== 'low' || sl)) why.push(['🧂', en
     ? `Your town is by the sea. Well water can turn salty in a long dry spell${sl ? `, and the sea is expected to rise about ${Math.round(sl.p50 * 100)} cm by 2050` : ''}.`
@@ -176,7 +176,7 @@ export function RisksView({ plan, cond, stored, lang, onOpenPlan }: {
           <Row k={en ? 'Ocean temperature (ONI)' : 'Init ng dagat (ONI)'} v={`${cond.risk.oni >= 0 ? '+' : ''}${cond.risk.oni.toFixed(2)} (${monthLabel(cond.oniMonth, true)})`} src={DATA.sources.oni} />
           <Row k={en ? 'Rain, last 3 months' : 'Ulan, nakaraang 3 buwan'} v={`${pct(past3Avg)} ${en ? 'of normal' : 'ng normal'}`} src={DATA.sources.normals} />
           <Row k={en ? 'Soil moisture' : 'Basa ng lupa'} v={`${cond.risk.ecoZ >= 0 ? '+' : ''}${cond.risk.ecoZ.toFixed(1)} SD`} src={DATA.sources.soil} />
-          <Row k={en ? 'Feels-like max temp, next 7 days' : 'Pinakamainit na pakiramdam, susunod na 7 araw'} v={`${cond.risk.heatIndexC.toFixed(0)}°C`} src={DATA.sources.heat} />
+          <Row k={en ? (cond.hindsight ? 'Feels-like max temp that month' : 'Peak heat index, next 7 days') : (cond.hindsight ? 'Pinakamainit na pakiramdam noong buwang iyon' : 'Pinakamataas na heat index, susunod na 7 araw')} v={`${cond.risk.heatIndexC.toFixed(0)}°C`} src={DATA.sources.heat} />
           {proj && <Row k="2041–2050" v={`${proj.dryRainChangePct > 0 ? '+' : ''}${proj.dryRainChangePct.toFixed(0)}% ${en ? 'dry-season rain' : 'ulan sa tag-araw'}, +${proj.tmaxChangeC.toFixed(1)}°C`} src={DATA.sources.projection} />}
           <Row k={en ? 'Chance of a dry spell, next 3 months' : 'Tsansa ng tagtuyot, susunod na 3 buwan'}
             v={`${pct(plan.score)} = ${cond.hindsight ? (en ? 'AI model only (time machine)' : 'AI model lang (balik-tanaw)') : `½ AI ${pct(cond.risk.pModel)} + ½ ECMWF ${pct(cond.risk.pForecast)}`} (${en ? 'low <30% · medium <60% · high' : 'mababa <30% · katamtaman <60% · mataas'})`} />

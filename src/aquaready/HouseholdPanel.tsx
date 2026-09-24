@@ -78,8 +78,9 @@ const DEFAULT_CONTAINERS: WaterContainerItem[] = [
 const SAMPLE_HOUSEHOLD: Household = {
   name: 'Santos Family',
   mobile: '0917 123 4567',
-  barangay: 'Alibagu',
-  lgu: 'Ilagan',
+  barangay: '',
+  // Cabagan: medium risk now, and in the 2023–24 replay the AI warned 2 months before its dry spell
+  lgu: 'Cabagan',
   members: [{ age: 'adult' }, { age: 'adult', pregnant: true }, { age: 'child' }, { age: 'elderly' }],
   storage: 'medium',
   containers: [
@@ -1028,7 +1029,7 @@ export function Onboarding({
           onClick={() => onDone(SAMPLE_HOUSEHOLD)}
         >
           <Sparkles className="w-3 h-3 text-sky-600" />
-          <span>Quick Demo: Load Santos Family (Ilagan)</span>
+          <span>Quick Demo: Load Santos Family (Cabagan)</span>
         </button>
       </div>
     </div>

@@ -1,7 +1,7 @@
 // Self-check for src/services/aquaready.ts. Run: npm run check:aquaready
 import assert from 'node:assert/strict';
 import {
-  householdDaily, riskScore, severity, predictDrySpell, modelFeatures, ensembleDrySpellProb, droughtClass, monthsToDrySpell,
+  householdDaily, heatIndexC, heatLevel, dailyHeat, riskScore, severity, predictDrySpell, modelFeatures, ensembleDrySpellProb, droughtClass, monthsToDrySpell,
   updateCalibration, calibrationFromAnswer, buildPlan, reserveDays, municipalPathways, type Member, type PlanInput,
 } from '../src/services/aquaready';
 
@@ -127,6 +127,16 @@ assert.equal(buildPlan({ ...smallBox, storedLiters: 300 }).shortfall, need - 300
 assert.equal(buildPlan({ ...smallBox, storedLiters: need + 100 }).shortfall, 0);
 assert.equal(buildPlan({ ...smallBox, storedLiters: need + 100 }).litersEvery3Days, 0);
 
+// Heat index vs NOAA's published table (°F → °C): 90 °F/70% → 106 °F; 96 °F/65% → 121 °F; 80 °F/40% → 80 °F
+const nearC = (a: number, f: number) => assert.ok(Math.abs(a - (f - 32) * 5 / 9) <= 1.1, `${a} vs ${f}°F`);
+nearC(heatIndexC(32.2, 70), 106);
+nearC(heatIndexC(35.6, 65), 121);
+nearC(heatIndexC(26.7, 40), 80);
+assert.equal(heatLevel(41.9), 'extremeCaution');
+assert.equal(heatLevel(42), 'danger');
+assert.equal(heatLevel(52), 'extremeDanger');
+assert.deepEqual(dailyHeat([{ date: 'd', t: [30, 34], rh: [60, 60] }]).map((x) => x.hi), [heatIndexC(34, 60)]);
+
 // Calendar: forecast starts with the current month; dry spell reached in December → days from today to Dec 1
 const cal = buildPlan({ ...base, observedRatios: [1.0], forecastRatios: [1.0, 0.7, 0.7, 0.7], asOf: '2026-09', today: new Date(Date.UTC(2026, 8, 24)) });
 assert.equal(cal.impactMonth, '2026-12');
@@ -142,4 +152,8 @@ assert.deepEqual(kinds({ ...alertBase, severity: 'high', lastAddedAt: '2026-09-2
 assert.deepEqual(kinds({ ...alertBase, severity: 'high', lastAddedAt: '2026-09-21T11:00:00Z' }), ['advisory', 'pacing']); // 3+ days ago
 assert.deepEqual(kinds({ ...alertBase, severity: 'low' }), []);
 assert.deepEqual(kinds({ ...alertBase, severity: 'low', alertSeverity: 'high' }), ['checkin']); // dry period over
+// Heat: alert only at PAGASA "Danger" (≥ 42 °C), once, dated to the first dangerous day
+assert.deepEqual(kinds({ ...alertBase, severity: 'low', heatDays: [{ date: '2026-09-25', hi: 40 }] }), []);
+const heat = computeAlerts({ ...alertBase, severity: 'low', heatDays: [{ date: '2026-09-25', hi: 41 }, { date: '2026-09-26', hi: 43.4 }, { date: '2026-09-27', hi: 45.6 }] }, today);
+assert.deepEqual(heat.map((a) => [a.kind, a.id, a.value]), [['heat', 'heat-2026-09-26', 46]]);
 console.log('alerts: all checks passed');

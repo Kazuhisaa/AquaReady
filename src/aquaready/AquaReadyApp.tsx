@@ -190,6 +190,7 @@ export function AquaReadyApp() {
         lastAddedAt: household.lastAddedAt,
         // Replay: "highest risk since the last check-in" comes from the replayed months before this one, not from today
         alertSeverity: replay ? replayPeakSeverity(activeTown, mode.month) : household.alertSeverity,
+        heatDays: cond.heatDays,
       }, cond.today)
     : [];
   const unread = alerts.filter((a) => !(household?.seenAlerts ?? []).includes(a.id)).length;

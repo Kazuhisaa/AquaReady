@@ -4,7 +4,7 @@ import raw from '../data/isabelaRisk.json';
 import { ISABELA_LGUS, type IsabelaLgu } from '../data/isabelaMunicipalities';
 import riskModel from '../data/riskModel.json';
 import {
-  droughtClass, ensembleDrySpellProb, modelFeatures, predictDrySpell, type PlanInput,
+  dailyHeat, droughtClass, ensembleDrySpellProb, modelFeatures, predictDrySpell, type PlanInput,
 } from '../services/aquaready';
 
 interface MonthObs { ratio: number; ecoZ: number; heat: number }
@@ -15,7 +15,7 @@ interface LguData {
   months: Record<string, MonthObs>;
   forecast: { month: string; p20: number; med: number; p80: number }[];
   rain3: { p20: number; med: number; p80: number };
-  heatNow: number;
+  heatHours: { date: string; t: number[]; rh: number[] }[]; // next 7 days, 11 AM–3 PM
   lastObserved: string;
   members3: number[][]; // each ECMWF member's next-3-month rain ratios
 }
@@ -53,6 +53,7 @@ export interface Conditions extends Omit<PlanInput, 'members' | 'storage' | 'sto
   rainRatioDry: number; // ensemble 20th percentile, next 3 months (display)
   rainRatioWet: number; // ensemble 80th percentile
   today: Date;
+  heatDays: { date: string; hi: number }[]; // live: daily peak heat index, next 7 days; replay: []
 }
 
 /** Trained model's P(dry spell in the 3 months after `t`), from data known at the end of month `t`. */
@@ -74,16 +75,17 @@ export function conditions(name: string, mode: Mode): Conditions {
   const projection2050 = DATA.projections[d.zone];
 
   if (mode.kind === 'live') {
+    const heatDays = dailyHeat(d.heatHours);
     const observedKeys = Object.keys(d.months).sort().slice(-6);
     const oni = latestOni();
     const observed = observedKeys.map((k) => d.months[k].ratio);
     const forecast = d.forecast.map((f) => f.med);
     return {
-      lgu, coastal: lgu.coastal, projection2050, hindsight: false, today: new Date(),
+      lgu, coastal: lgu.coastal, projection2050, hindsight: false, today: new Date(), heatDays,
       asOf: d.forecast[0].month,
       oniMonth: oni.month,
       risk: {
-        rainRatio: d.rain3.med, oni: oni.value, ecoZ: d.months[d.lastObserved].ecoZ, heatIndexC: d.heatNow,
+        rainRatio: d.rain3.med, oni: oni.value, ecoZ: d.months[d.lastObserved].ecoZ, heatIndexC: Math.max(...heatDays.map((h) => h.hi)),
         pModel: pModelAt(d, d.lastObserved, oni.value),
         pForecast: ensembleDrySpellProb(observed, d.members3),
       },
@@ -107,7 +109,7 @@ export function conditions(name: string, mode: Mode): Conditions {
   const rain3 = next3.reduce((s, k) => s + d.months[k].ratio * norm(k), 0) / next3.reduce((s, k) => s + norm(k), 0);
   const oniMonth = addMonths(t, -1);
   return {
-    lgu, coastal: lgu.coastal, projection2050, hindsight: true, today: new Date(Date.UTC(+t.slice(0, 4), +t.slice(5) - 1, 1)),
+    lgu, coastal: lgu.coastal, projection2050, hindsight: true, heatDays: [], today: new Date(Date.UTC(+t.slice(0, 4), +t.slice(5) - 1, 1)),
     asOf: t,
     oniMonth,
     risk: {

@@ -69,7 +69,7 @@ On a computer the app is shown inside a phone-shaped frame, the way it looks on 
 
 ### First screen: household setup
 
-- **Fastest:** click **"Quick Demo: Load Santos Family (Ilagan)"** at the bottom. It fills in a sample family of 4.
+- **Fastest:** click **"Quick Demo: Load Santos Family (Cabagan)"** at the bottom. It fills in a sample family of 4 in Cabagan, a town with medium risk now and a real 2023 dry spell in the time machine.
 - **Or** fill in the 4 setup steps: town and barangay, family members (age and special needs such as pregnant or breastfeeding), your water containers, and privacy consent.
 
 ### The 4 tabs at the bottom
@@ -96,7 +96,7 @@ On a computer the app is shown inside a phone-shaped frame, the way it looks on 
 
 ### Try a different town
 
-On the Home tab, tap the pencil ✏️ next to the family name, and change the municipality. Good examples with the current data: **Maconacon** (high risk, coastal, sea-level warning), **Delfin Albano** (high), **Ilagan** (low). In the time machine, **Cabagan** shows the AI warning 2 months before the 2023 dry spell.
+On the Home tab, tap the pencil ✏️ next to the family name, and change the municipality. Good examples with the current data: **Maconacon** (high risk, coastal, sea-level warning), **Delfin Albano** (high), **Ilagan** (low). In the time machine, **Cabagan** shows the AI warning 2 months before the 2023 dry spell, and **Tumauini** or **Santo Tomas** show the most severe one. Ilagan had no dry spell in the rainfall data (ERA5) that year, so it is not a good replay example.
 
 ---
 

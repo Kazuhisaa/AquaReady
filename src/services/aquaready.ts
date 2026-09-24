@@ -41,6 +41,30 @@ export function heatAddLpd(heatIndexC: number): number {
   return 0;
 }
 
+// ---------- Heat index [S]: NOAA Rothfusz regression, the formula PAGASA's heat index uses ----------
+
+export function heatIndexC(tempC: number, rh: number): number {
+  const T = tempC * 9 / 5 + 32;
+  let hi = 0.5 * (T + 61 + (T - 68) * 1.2 + rh * 0.094); // simple formula, valid below ~80 °F
+  if ((hi + T) / 2 >= 80) {
+    hi = -42.379 + 2.04901523 * T + 10.14333127 * rh - 0.22475541 * T * rh - 6.83783e-3 * T * T
+      - 5.481717e-2 * rh * rh + 1.22874e-3 * T * T * rh + 8.5282e-4 * T * rh * rh - 1.99e-6 * T * T * rh * rh;
+    if (rh < 13 && T >= 80 && T <= 112) hi -= ((13 - rh) / 4) * Math.sqrt((17 - Math.abs(T - 95)) / 17);
+    else if (rh > 85 && T >= 80 && T <= 87) hi += ((rh - 85) / 10) * ((87 - T) / 5);
+  }
+  return Math.round(((hi - 32) * 5 / 9) * 10) / 10;
+}
+
+export type HeatLevel = 'none' | 'caution' | 'extremeCaution' | 'danger' | 'extremeDanger';
+// PAGASA heat index classification
+export const heatLevel = (hiC: number): HeatLevel =>
+  hiC >= 52 ? 'extremeDanger' : hiC >= 42 ? 'danger' : hiC >= 33 ? 'extremeCaution' : hiC >= 27 ? 'caution' : 'none';
+
+/** Daily peak heat index from hourly temperature/humidity. */
+export function dailyHeat(days: { date: string; t: number[]; rh: number[] }[]): { date: string; hi: number }[] {
+  return days.map((d) => ({ date: d.date, hi: Math.max(...d.t.map((t, i) => heatIndexC(t, d.rh[i]))) }));
+}
+
 export function memberAdjustment(m: Member): number {
   return (
     (m.pregnant ? PREGNANT_L : 0) +

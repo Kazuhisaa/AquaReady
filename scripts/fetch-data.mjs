@@ -114,9 +114,20 @@ async function fetchTown(name) {
     lat, lon,
     archive: { daily: joinDaily(normal.daily, recent.daily, keys) },
     heat: { daily: { time: recent.daily.time, apparent_temperature_max: recent.daily.apparent_temperature_max } },
-    heatNext: await get(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&timezone=Asia%2FManila&daily=apparent_temperature_max&forecast_days=7`),
     seasonal, climate,
   };
+}
+
+function heatHours(fc) {
+  const days = {};
+  fc.hourly.time.forEach((t, i) => {
+    const h = Number(t.slice(11, 13));
+    if (h < 11 || h > 15 || fc.hourly.temperature_2m[i] == null) return;
+    const d = (days[t.slice(0, 10)] ??= { date: t.slice(0, 10), t: [], rh: [] });
+    d.t.push(fc.hourly.temperature_2m[i]);
+    d.rh.push(fc.hourly.relative_humidity_2m[i]);
+  });
+  return Object.values(days);
 }
 
 function town(name, raw) {
@@ -144,6 +155,10 @@ function town(name, raw) {
     };
   }
   const lastObserved = Object.keys(months).sort().at(-1);
+  // Ship only what the app reads: the 2023–24 replay window and the last 8 months (live view, model inputs).
+  // Training uses the full history in .cache/history/, not this.
+  const keepFrom = Object.keys(months).sort().at(-8);
+  for (const k of Object.keys(months)) if (k > '2024-12' && k < keepFrom) delete months[k];
 
   // Full monthly history 1991– (rain vs normal, soil z) for training the risk model: scripts/train-model.ts
   const history = {};
@@ -196,7 +211,9 @@ function town(name, raw) {
     lgu: {
       name, zone: name, lat: raw.lat, lon: raw.lon, normals, months, forecast,
       rain3: { p20: round(quantile(r3, 0.2)), med: round(quantile(r3, 0.5)), p80: round(quantile(r3, 0.8)) },
-      heatNow: round(Math.max(...raw.heatNext.daily.apparent_temperature_max), 1),
+      // Next 7 days, 11 AM–3 PM (when the heat index peaks): temperature + humidity, so the app computes the
+      // PAGASA-style heat index itself (src/services/aquaready.ts heatIndexC)
+      heatHours: heatHours(raw.heatNext),
       lastObserved,
       members3,
     },
@@ -238,7 +255,10 @@ const projections = {};
 for (const name of LGUS) {
   // Towns fetched by the first (per-town) run keep their own cache file.
   const file = `.cache/${name}.json`;
-  const t = town(name, existsSync(file) ? JSON.parse(readFileSync(file, 'utf8')) : await fetchTown(name));
+  const raw = existsSync(file) ? JSON.parse(readFileSync(file, 'utf8')) : await fetchTown(name);
+  // 7-day heat forecast is never cached: it changes every day
+  raw.heatNext = await get(`https://api.open-meteo.com/v1/forecast?latitude=${raw.lat}&longitude=${raw.lon}&timezone=Asia%2FManila&hourly=temperature_2m,relative_humidity_2m&forecast_days=7`);
+  const t = town(name, raw);
   lgus.push(t.lgu);
   projections[name] = t.projection;
   mkdirSync('.cache/history', { recursive: true });
@@ -256,7 +276,7 @@ writeFileSync('src/data/isabelaRisk.json', JSON.stringify({
     forecast: 'ECMWF SEAS5 seasonal ensemble via Open-Meteo',
     normals: 'ERA5 reanalysis 1991–2020 via Open-Meteo archive',
     soil: 'ERA5 root-zone soil moisture (28–100 cm) via Open-Meteo archive',
-    heat: 'Feels-like max temperature, ERA5 + Open-Meteo forecast',
+    heat: 'Heat index (NOAA/Rothfusz, as used by PAGASA) from Open-Meteo hourly temperature and humidity forecast; replay months use ERA5 feels-like max temperature',
     projection: 'CMIP6 EC-Earth3P-HR via Open-Meteo climate API',
     seaLevel: 'IPCC AR6 sea-level projections, NASA Sea Level Projection Tool (SSP2-4.5, medium confidence)',
     oni: 'https://www.cpc.ncep.noaa.gov/data/indices/oni.ascii.txt',

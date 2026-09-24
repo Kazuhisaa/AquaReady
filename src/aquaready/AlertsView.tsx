@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { ArrowLeft, BellRing, ChevronRight } from 'lucide-react';
 import type { Alert } from './alerts';
 import { RisksView } from './RisksView';
+import { HeatView } from './HeatView';
 import { RainTimeline } from './Visuals';
 import type { Conditions } from './scenario';
 import type { buildPlan } from '../services/aquaready';
@@ -23,6 +24,14 @@ export function alertText(a: Alert, plan: Plan, town: string, lang: Language): {
     title: en ? `${RISK_WORD.en[plan.severity]} in ${town}. Start storing water now.` : `${RISK_WORD.tl[plan.severity]} sa ${town}. Simulan na ang pag-iipon ng tubig.`,
     sub: en ? 'Tap to see why and what to do.' : 'Pindutin para malaman kung bakit at ano ang gagawin.',
   };
+  if (a.kind === 'heat') {
+    const d = new Date(a.at).toLocaleDateString(en ? 'en-US' : 'fil-PH', { weekday: 'long', month: 'short', day: 'numeric' });
+    return {
+      icon: '🌡️',
+      title: en ? `Dangerous heat in ${town} from ${d}: heat index up to ${a.value}°C.` : `Delikadong init sa ${town} simula ${d}: aabot sa ${a.value}°C ang heat index.`,
+      sub: en ? 'Tap to see what to do.' : 'Pindutin para malaman ang gagawin.',
+    };
+  }
   if (a.kind === 'pacing') return {
     icon: '💧',
     title: en ? `Time to add ${plan.litersEvery3Days} L of water.` : `Oras nang magdagdag ng ${plan.litersEvery3Days} L na tubig.`,
@@ -40,7 +49,7 @@ export function AlertsView({ alerts, plan, cond, stored, lang, onOpenPlan, onOpe
   onOpenPlan: () => void; onOpenCheckIn: () => void; onSeen: (ids: string[]) => void;
 }) {
   const en = lang === 'en';
-  const [detail, setDetail] = useState(false);
+  const [detail, setDetail] = useState<'risk' | 'heat' | null>(null);
   const [perm, setPerm] = useState(typeof Notification === 'undefined' ? 'unsupported' : Notification.permission);
 
   // Opening the tab counts as reading every alert on it.
@@ -50,10 +59,10 @@ export function AlertsView({ alerts, plan, cond, stored, lang, onOpenPlan, onOpe
   if (detail) {
     return (
       <div className="space-y-3">
-        <button type="button" onClick={() => setDetail(false)} className="inline-flex items-center gap-1.5 text-sm font-bold text-sky-700 cursor-pointer">
+        <button type="button" onClick={() => setDetail(null)} className="inline-flex items-center gap-1.5 text-sm font-bold text-sky-700 cursor-pointer">
           <ArrowLeft className="w-4 h-4" aria-hidden /> {en ? 'Back to alerts' : 'Bumalik sa mga abiso'}
         </button>
-        <RisksView plan={plan} cond={cond} stored={stored} lang={lang} onOpenPlan={onOpenPlan} />
+        {detail === 'heat' ? <HeatView cond={cond} lang={lang} /> : <RisksView plan={plan} cond={cond} stored={stored} lang={lang} onOpenPlan={onOpenPlan} />}
       </div>
     );
   }
@@ -90,7 +99,7 @@ export function AlertsView({ alerts, plan, cond, stored, lang, onOpenPlan, onOpe
         <ul className="m-0 p-0 list-none space-y-2">
           {alerts.map((a) => {
             const t = alertText(a, plan, cond.lgu.name, lang);
-            const open = a.kind === 'advisory' ? () => setDetail(true) : a.kind === 'pacing' ? onOpenPlan : onOpenCheckIn;
+            const open = a.kind === 'advisory' ? () => setDetail('risk') : a.kind === 'heat' ? () => setDetail('heat') : a.kind === 'pacing' ? onOpenPlan : onOpenCheckIn;
             return (
               <li key={a.id}>
                 <button type="button" onClick={open}
