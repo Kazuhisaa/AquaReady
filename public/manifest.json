@@ -1,0 +1,38 @@
+{
+  "name": "AquaReady · Household Water Plan",
+  "short_name": "AquaReady",
+  "description": "How much water to store, and when to start, for your household in Isabela.",
+  "start_url": "/",
+  "id": "/",
+  "display": "standalone",
+  "background_color": "#f1f5f9",
+  "theme_color": "#0284c7",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": [
+    "weather",
+    "utilities",
+    "productivity",
+    "sustainability"
+  ],
+  "scope": "/"
+}

@@ -1,0 +1,208 @@
+{
+ "trainedAt": "2026-09-24T00:11:52.094Z",
+ "question": "P(PAGASA dry spell reached within the next 3 months)",
+ "features": [
+  "oni",
+  "rainPast3",
+  "soilZ",
+  "seasonSin",
+  "seasonCos",
+  "oniTrend",
+  "rainLast"
+ ],
+ "mean": [
+  -0.038167938931297704,
+  0.9821289228159468,
+  0.0843553859202716,
+  -0.005213837419024575,
+  -0.005213837419024584,
+  -0.0008396946564885487,
+  0.9805597964376593
+ ],
+ "std": [
+  0.809747676773938,
+  0.41184128216553,
+  0.8013833380674067,
+  0.7070875588633732,
+  0.7070875588633732,
+  0.5361276738792197,
+  0.601132469946839
+ ],
+ "coef": [
+  0.3194652199605883,
+  -0.1952183056183721,
+  -0.11221303955006891,
+  0.06628884613213265,
+  0.23505388466894583,
+  0.075096082287859,
+  -0.18598394861957787
+ ],
+ "intercept": -1.3426421849058459,
+ "selection": {
+  "validatedOn": "1991–2004 fit → 2005–2012",
+  "candidates": [
+   {
+    "name": "base",
+    "brier": 0.08749336404634575,
+    "brierSkill": 0.3118713220750837,
+    "auc": 0.8725624470097176
+   },
+   {
+    "name": "base, strong L2",
+    "brier": 0.08250394477804802,
+    "brierSkill": 0.3511127265190612,
+    "auc": 0.8722363529641949
+   },
+   {
+    "name": "no soil",
+    "brier": 0.08748729619935675,
+    "brierSkill": 0.3119190452318271,
+    "auc": 0.8733885519250418
+   },
+   {
+    "name": "+ ONI trend, last month",
+    "brier": 0.0870268325868313,
+    "brierSkill": 0.31554055665013103,
+    "auc": 0.8899976086436662
+   },
+   {
+    "name": "+ ONI trend, last month, strong L2",
+    "brier": 0.0788971774431018,
+    "brierSkill": 0.37947967828542184,
+    "auc": 0.8843670514576404
+   }
+  ],
+  "chosen": "+ ONI trend, last month, strong L2",
+  "l2": 0.3
+ },
+ "data": {
+  "cells": 9,
+  "trainPeriod": "1991–2012",
+  "testPeriod": "2013–2020, 2023–2026",
+  "trainRows": 2358,
+  "testRows": 1275,
+  "baseRate": 0.22815945716709077
+ },
+ "test": {
+  "auc": 0.6941327927487096,
+  "brier": 0.1151098050750908,
+  "brierClimatology": 0.11729846817468224,
+  "brierSkill": 0.01865892311851891,
+  "events": 153,
+  "hits": 18,
+  "falseAlarms": 38,
+  "threshold": 0.5,
+  "hits30": 65,
+  "falseAlarms30": 221
+ },
+ "caseStudies": [
+  {
+   "name": "2015–16 El Niño",
+   "towns": [
+    {
+     "town": "Alicia",
+     "onset": null,
+     "warned": null
+    },
+    {
+     "town": "Benito Soliven",
+     "onset": null,
+     "warned": null
+    },
+    {
+     "town": "Cabagan",
+     "onset": "2016-05",
+     "warned": "2015-11",
+     "monthsAhead": 6
+    },
+    {
+     "town": "Cordon",
+     "onset": "2015-08",
+     "warned": null,
+     "monthsAhead": 0
+    },
+    {
+     "town": "Dinapigue",
+     "onset": null,
+     "warned": null
+    },
+    {
+     "town": "Divilacan",
+     "onset": null,
+     "warned": null
+    },
+    {
+     "town": "Palanan",
+     "onset": null,
+     "warned": null
+    },
+    {
+     "town": "Quezon",
+     "onset": "2016-06",
+     "warned": "2015-12",
+     "monthsAhead": 6
+    },
+    {
+     "town": "San Agustin",
+     "onset": null,
+     "warned": null
+    }
+   ]
+  },
+  {
+   "name": "2023–24 El Niño",
+   "towns": [
+    {
+     "town": "Alicia",
+     "onset": null,
+     "warned": null
+    },
+    {
+     "town": "Benito Soliven",
+     "onset": null,
+     "warned": null
+    },
+    {
+     "town": "Cabagan",
+     "onset": "2023-11",
+     "warned": "2023-10",
+     "monthsAhead": 1
+    },
+    {
+     "town": "Cordon",
+     "onset": "2023-12",
+     "warned": "2023-10",
+     "monthsAhead": 2
+    },
+    {
+     "town": "Dinapigue",
+     "onset": "2023-12",
+     "warned": null,
+     "monthsAhead": 0
+    },
+    {
+     "town": "Divilacan",
+     "onset": null,
+     "warned": null
+    },
+    {
+     "town": "Palanan",
+     "onset": null,
+     "warned": null
+    },
+    {
+     "town": "Quezon",
+     "onset": "2024-03",
+     "warned": "2024-02",
+     "monthsAhead": 1
+    },
+    {
+     "town": "San Agustin",
+     "onset": "2023-12",
+     "warned": "2023-10",
+     "monthsAhead": 2
+    }
+   ]
+  }
+ ]
+}

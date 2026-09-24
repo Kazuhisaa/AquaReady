@@ -1,0 +1,173 @@
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+/* AquaReady Design System: Clean, Modern Institutional Climate Intelligence */
+.aq {
+  --sky: #f8fafc;
+  --panel: #ffffff;
+  --panel-solid: #ffffff;
+  --panel-card: #f8fafc;
+  --ink: #0f172a;
+  --ink-secondary: #334155;
+  --muted: #64748b;
+  --line: #e2e8f0;
+  --line-strong: #cbd5e1;
+  --water: #0284c7;
+  --water-neon: #0284c7;
+  --water-soft: #f0f9ff;
+  --water-glow: rgba(2, 132, 199, 0.12);
+  --ochre: #d97706;
+  --soil: #b45309;
+  --near: #64748b;
+  --low: #059669;
+  --moderate: #d97706;
+  --high: #dc2626;
+  --drum-bg: #f8fafc;
+  --drum-border: #cbd5e1;
+  --input-bg: #ffffff;
+
+  min-height: 100vh;
+  background-color: #f8fafc;
+  color: #0f172a;
+  font-family: 'Atkinson Hyperlegible Next', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  color-scheme: light;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.aq .num {
+  font-family: 'JetBrains Mono', monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.aq :focus-visible {
+  outline: 2px solid var(--water);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Institutional Clean Panels */
+.aq-panel {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.04);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.aq-panel:hover {
+  border-color: #cbd5e1;
+}
+
+/* Interactive Buttons */
+.aq-btn {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 0.45rem 1rem;
+  font-weight: 600;
+  font-size: 0.8125rem;
+  background: #ffffff;
+  color: #0f172a;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  transition: all 0.15s ease;
+}
+
+.aq-btn:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.aq-btn-primary {
+  background: #0284c7;
+  border-color: #0284c7;
+  color: #ffffff;
+  box-shadow: 0 1px 2px 0 rgba(2, 132, 199, 0.2);
+}
+
+.aq-btn-primary:hover {
+  background: #0369a1;
+  border-color: #0369a1;
+  color: #ffffff;
+  box-shadow: 0 2px 4px 0 rgba(2, 132, 199, 0.3);
+}
+
+.aq-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Chip Toggles */
+.aq-chip {
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 0.55rem 0.9rem;
+  background: #f8fafc;
+  color: #0f172a;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.aq-chip:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.aq input[type='range'] {
+  accent-color: #0284c7;
+  width: 100%;
+}
+
+/* Visual animations */
+.aq-fill {
+  transition: y 600ms cubic-bezier(0.4, 0, 0.2, 1), height 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aq-fill {
+    transition: none;
+  }
+}
+
+/* Leaflet Container */
+.aq .leaflet-container {
+  background: #f1f5f9 !important;
+  border-radius: 12px;
+  font-family: inherit;
+}
+
+.aq .leaflet-tile-pane {
+  filter: none;
+}
+
+.aq .leaflet-tooltip {
+  background: #ffffff;
+  color: #0f172a;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 6px 10px;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+/* Custom Scrollbar */
+.aq ::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.aq ::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+.aq ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+.aq ::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}

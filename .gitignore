@@ -1,0 +1,13 @@
+node_modules
+dist
+.cache
+.vite
+tsconfig.tsbuildinfo
+.env
+.env.*
+*.local
+
+# Internal design/pitch docs, kept local
+AQUAREADY.md
+AQUAREADY_SPEC.md
+PROJECT_SPECIFICATION.md
