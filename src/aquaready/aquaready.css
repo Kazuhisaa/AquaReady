@@ -134,28 +134,6 @@
   }
 }
 
-/* Leaflet Container */
-.aq .leaflet-container {
-  background: #f1f5f9 !important;
-  border-radius: 12px;
-  font-family: inherit;
-}
-
-.aq .leaflet-tile-pane {
-  filter: none;
-}
-
-.aq .leaflet-tooltip {
-  background: #ffffff;
-  color: #0f172a;
-  border: 1px solid #cbd5e1;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  padding: 6px 10px;
-  font-size: 12px;
-  line-height: 1.4;
-}
-
 /* Custom Scrollbar */
 .aq ::-webkit-scrollbar {
   width: 6px;

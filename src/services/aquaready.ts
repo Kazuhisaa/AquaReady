@@ -369,11 +369,6 @@ export function pathways(p: PlanInput, sev: Severity, shortfall: number): Pathwa
 
 // ---------- 6. Regional view (LGU readiness map) ----------
 
-// Rank municipalities for the map: high risk × many people × few households ready.
-export function priorityScore(riskScoreValue: number, population: number, readyShare: number): number {
-  return riskScoreValue * population * (1 - clamp01(readyShare));
-}
-
 export type Projection = { dryRainChangePct: number; tmaxChangeC: number };
 export const describeProjection = (p: Projection) =>
   `${Math.abs(p.dryRainChangePct).toFixed(0)}% ${p.dryRainChangePct < 0 ? 'less' : 'more'} rain and ${p.tmaxChangeC.toFixed(1)} °C more heat`;

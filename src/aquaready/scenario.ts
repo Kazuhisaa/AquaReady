@@ -30,6 +30,10 @@ export const DATA = raw as RiskData;
 
 export type Mode = { kind: 'live' } | { kind: 'replay'; month: string };
 
+// ECMWF issues a new seasonal forecast monthly; past this the snapshot may be wrong (npm run data refreshes it).
+export const STALE_AFTER_DAYS = 35;
+export const dataAgeDays = (now = new Date()) => Math.floor((now.getTime() - new Date(DATA.generatedAt).getTime()) / 864e5);
+
 export function addMonths(ym: string, k: number): string {
   const [y, m] = ym.split('-').map(Number);
   const d = new Date(Date.UTC(y, m - 1 + k, 1));

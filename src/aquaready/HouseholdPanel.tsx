@@ -35,6 +35,7 @@ import {
 } from '../services/aquaready';
 import { type Conditions, monthLabel } from './scenario';
 import { AlertsView, alertText } from './AlertsView';
+import { RefillPoints } from './RefillPoints';
 import type { Alert } from './alerts';
 import { DrumGauge, SEVERITY_COLOR, SEVERITY_WORD } from './Visuals';
 import { type Language, TRANSLATIONS } from '../services/i18n';
@@ -391,7 +392,7 @@ export function Onboarding({
     // Step 1: Location & Profile
     <div key="signup" className="space-y-4">
       <div>
-        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-sky-100/90 text-sky-800 text-[10px] font-extrabold uppercase tracking-wider mb-1.5">
+        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-sky-100/90 text-sky-800 text-[11px] font-extrabold uppercase tracking-wider mb-1.5">
           <MapPin className="w-3 h-3 text-sky-600" />
           Step 1 of 4 · Town & Family
         </div>
@@ -456,7 +457,7 @@ export function Onboarding({
     // Step 2: Members
     <div key="who" className="space-y-4">
       <div>
-        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-sky-100/90 text-sky-800 text-[10px] font-extrabold uppercase tracking-wider mb-1.5">
+        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-sky-100/90 text-sky-800 text-[11px] font-extrabold uppercase tracking-wider mb-1.5">
           <Users className="w-3 h-3 text-sky-600" />
           Step 2 of 4 · Family Members
         </div>
@@ -484,7 +485,7 @@ export function Onboarding({
                   <span className="text-xs font-black text-slate-900 tracking-tight">
                     {cat.title}
                   </span>
-                  <span className="text-[10px] font-bold text-slate-400">
+                  <span className="text-[11px] font-bold text-slate-400">
                     ({cat.age})
                   </span>
                 </div>
@@ -528,7 +529,7 @@ export function Onboarding({
           <span className="text-[11px] font-black tracking-wider uppercase text-slate-500">
             Extra Needs (Optional)
           </span>
-          <span className="text-[10px] font-bold text-sky-700 bg-sky-50 px-2 py-0.5 rounded-full border border-sky-200">
+          <span className="text-[11px] font-bold text-sky-700 bg-sky-50 px-2 py-0.5 rounded-full border border-sky-200">
             +5 L / day extra
           </span>
         </div>
@@ -553,7 +554,7 @@ export function Onboarding({
                 <HeartPulse className="w-3.5 h-3.5" />
               </div>
               <span
-                className={`text-[9px] font-bold px-1.5 py-0.5 rounded flex items-center gap-0.5 ${
+                className={`text-[11px] font-bold px-1.5 py-0.5 rounded flex items-center gap-0.5 ${
                   isPregnant ? 'bg-sky-600 text-white' : 'bg-slate-100 text-slate-500'
                 }`}
               >
@@ -563,7 +564,7 @@ export function Onboarding({
             </div>
             <div>
               <p className="text-xs font-black text-slate-900 m-0 leading-tight">Pregnancy</p>
-              <p className="text-[10px] text-slate-500 m-0 leading-tight">Extra drinking water</p>
+              <p className="text-[11px] text-slate-500 m-0 leading-tight">Extra drinking water</p>
             </div>
           </button>
 
@@ -586,7 +587,7 @@ export function Onboarding({
                 <Milk className="w-3.5 h-3.5" />
               </div>
               <span
-                className={`text-[9px] font-bold px-1.5 py-0.5 rounded flex items-center gap-0.5 ${
+                className={`text-[11px] font-bold px-1.5 py-0.5 rounded flex items-center gap-0.5 ${
                   isLactating ? 'bg-sky-600 text-white' : 'bg-slate-100 text-slate-500'
                 }`}
               >
@@ -596,7 +597,7 @@ export function Onboarding({
             </div>
             <div>
               <p className="text-xs font-black text-slate-900 m-0 leading-tight">Nursing Mother</p>
-              <p className="text-[10px] text-slate-500 m-0 leading-tight">Breastfeeding support</p>
+              <p className="text-[11px] text-slate-500 m-0 leading-tight">Breastfeeding support</p>
             </div>
           </button>
 
@@ -619,7 +620,7 @@ export function Onboarding({
                 <ShieldAlert className="w-3.5 h-3.5" />
               </div>
               <span
-                className={`text-[9px] font-bold px-1.5 py-0.5 rounded flex items-center gap-0.5 ${
+                className={`text-[11px] font-bold px-1.5 py-0.5 rounded flex items-center gap-0.5 ${
                   hasHealthFlag ? 'bg-sky-600 text-white' : 'bg-slate-100 text-slate-500'
                 }`}
               >
@@ -629,7 +630,7 @@ export function Onboarding({
             </div>
             <div>
               <p className="text-xs font-black text-slate-900 m-0 leading-tight">Medical Need</p>
-              <p className="text-[10px] text-slate-500 m-0 leading-tight">Illness / maintenance</p>
+              <p className="text-[11px] text-slate-500 m-0 leading-tight">Illness / maintenance</p>
             </div>
           </button>
 
@@ -653,7 +654,7 @@ export function Onboarding({
                   <Baby className="w-3.5 h-3.5" />
                 </div>
                 <span
-                  className={`text-[9px] font-bold px-1.5 py-0.5 rounded flex items-center gap-0.5 ${
+                  className={`text-[11px] font-bold px-1.5 py-0.5 rounded flex items-center gap-0.5 ${
                     isFormulaFed ? 'bg-sky-600 text-white' : 'bg-slate-100 text-slate-500'
                   }`}
                 >
@@ -663,7 +664,7 @@ export function Onboarding({
               </div>
               <div>
                 <p className="text-xs font-black text-slate-900 m-0 leading-tight">Formula-Fed</p>
-                <p className="text-[10px] text-slate-500 m-0 leading-tight">Bottle prep</p>
+                <p className="text-[11px] text-slate-500 m-0 leading-tight">Bottle prep</p>
               </div>
             </button>
           )}
@@ -681,13 +682,13 @@ export function Onboarding({
               <span className="text-xs font-black text-slate-900 block leading-tight">
                 Daily Need: {dailyNeeds.total} L / day
               </span>
-              <span className="text-[10px] text-slate-500 block">
+              <span className="text-[11px] text-slate-500 block">
                 {totalPersons} {totalPersons === 1 ? 'person' : 'people'} in household
               </span>
             </div>
           </div>
           {sensitive && (
-            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-sky-100 text-sky-800">
+            <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-sky-100 text-sky-800">
               Extra buffer active
             </span>
           )}
@@ -704,7 +705,7 @@ export function Onboarding({
           </div>
         </div>
 
-        <div className="flex items-center gap-1.5 text-[10px] text-slate-500 pt-0.5">
+        <div className="flex items-center gap-1.5 text-[11px] text-slate-500 pt-0.5">
           <Info className="w-3.5 h-3.5 text-sky-600 shrink-0" />
           <span>Standard: 15 L per person for drinking, cooking, and hygiene.</span>
         </div>
@@ -714,7 +715,7 @@ export function Onboarding({
     // Step 3: Dynamic Containers
     <div key="storage" className="space-y-3.5">
       <div>
-        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-sky-100/90 text-sky-800 text-[10px] font-extrabold uppercase tracking-wider mb-1.5">
+        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-sky-100/90 text-sky-800 text-[11px] font-extrabold uppercase tracking-wider mb-1.5">
           <Droplets className="w-3 h-3 text-sky-600" />
           Step 3 of 4 · Storage
         </div>
@@ -749,7 +750,7 @@ export function Onboarding({
                     <span className="text-xs font-black text-slate-900 block truncate">
                       {item.name}
                     </span>
-                    <span className="text-[10px] font-bold text-slate-400 block">
+                    <span className="text-[11px] font-bold text-slate-400 block">
                       {item.liters} L each · Total: {item.liters * item.count} L
                     </span>
                   </div>
@@ -813,7 +814,7 @@ export function Onboarding({
                 <span className="text-xs font-bold text-slate-900 group-hover:text-sky-700 block truncate leading-tight">
                   {preset.name}
                 </span>
-                <span className="text-[10px] text-slate-500 font-bold block mt-0.5">
+                <span className="text-[11px] text-slate-500 font-bold block mt-0.5">
                   +{preset.liters} L
                 </span>
               </div>
@@ -847,7 +848,7 @@ export function Onboarding({
             </div>
             <div className="grid grid-cols-2 gap-2">
               <div>
-                <label className="block text-[10px] font-bold text-slate-700 mb-0.5" htmlFor="custom-c-name">
+                <label className="block text-[11px] font-bold text-slate-700 mb-0.5" htmlFor="custom-c-name">
                   Container Name
                 </label>
                 <input
@@ -860,7 +861,7 @@ export function Onboarding({
                 />
               </div>
               <div>
-                <label className="block text-[10px] font-bold text-slate-700 mb-0.5" htmlFor="custom-c-liters">
+                <label className="block text-[11px] font-bold text-slate-700 mb-0.5" htmlFor="custom-c-liters">
                   Capacity (Liters)
                 </label>
                 <input
@@ -912,7 +913,7 @@ export function Onboarding({
     // Step 4: Consent & Complete
     <div key="consent" className="space-y-4">
       <div>
-        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-sky-100/90 text-sky-800 text-[10px] font-extrabold uppercase tracking-wider mb-1.5">
+        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-sky-100/90 text-sky-800 text-[11px] font-extrabold uppercase tracking-wider mb-1.5">
           <Shield className="w-3 h-3 text-sky-600" />
           Step 4 of 4 · Done
         </div>
@@ -941,7 +942,7 @@ export function Onboarding({
           <span className="text-slate-500">Storage Capacity:</span>
           <div className="text-right">
             <span className="font-black text-sky-700 block">{totalStorageCapacity} Liters</span>
-            <span className="text-[10px] text-slate-500 block max-w-[200px] truncate">
+            <span className="text-[11px] text-slate-500 block max-w-[200px] truncate">
               {currentContainers.map((c) => `${c.count}x ${c.name}`).join(', ')}
             </span>
           </div>
@@ -1454,13 +1455,13 @@ function HouseholdActiveView({
                   ? `${SEVERITY_WORD[sev]} · ${household.lgu}`
                   : `${sev === 'high' ? 'Mataas na Panganib' : sev === 'moderate' ? 'Katamtamang Panganib' : 'Mababang Panganib'} · ${household.lgu}`}
               </span>
-              <span className="text-[10px] text-slate-400 font-medium">
+              <span className="text-[11px] text-slate-400 font-medium">
                 {monthLabel(cond.asOf, true)}
               </span>
             </div>
 
             <div>
-              <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block mb-0.5">
+              <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400 block mb-0.5">
                 {t.home.waterToStore}
               </span>
               <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight m-0 bg-gradient-to-r from-slate-900 to-sky-700 bg-clip-text text-transparent">
@@ -1479,11 +1480,11 @@ function HouseholdActiveView({
             {/* Dynamic Status Message Based on Water Collected */}
             <div className={`p-3 rounded-xl border ${homeStatusMessage.boxBg} space-y-1 transition-all duration-300`}>
               <div className="flex items-center justify-between gap-1">
-                <span className={`text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md border ${homeStatusMessage.tagBg} flex items-center gap-1`}>
+                <span className={`text-[11px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md border ${homeStatusMessage.tagBg} flex items-center gap-1`}>
                   <span>{homeStatusMessage.emoji}</span>
                   <span>{homeStatusMessage.badge}</span>
                 </span>
-                <span className="text-[10px] font-bold opacity-75">
+                <span className="text-[11px] font-bold opacity-75">
                   {progressPct}% {t.home.targetGoalSuffix}
                 </span>
               </div>
@@ -1495,27 +1496,27 @@ function HouseholdActiveView({
             {/* Daily Consumption Breakdown Cards */}
             <div className="grid grid-cols-2 gap-2 pt-0.5">
               <div className="p-2.5 sm:p-3 rounded-xl border border-sky-200/80 bg-sky-50/60">
-                <span className="text-[10px] font-bold text-sky-900 block flex items-center gap-1">
+                <span className="text-[11px] font-bold text-sky-900 block flex items-center gap-1">
                   <Droplets className="w-3 h-3 text-sky-600" />
                   {t.home.drinking}
                 </span>
                 <span className="text-lg font-black text-sky-700 block mt-0.5">
                   {plan.daily.potable.toFixed(1)} L/day
                 </span>
-                <span className="text-[9px] text-slate-500 block leading-tight mt-0.5">
+                <span className="text-[11px] text-slate-500 block leading-tight mt-0.5">
                   {t.home.drinkingDesc}
                 </span>
               </div>
 
               <div className="p-2.5 sm:p-3 rounded-xl border border-slate-200 bg-slate-50/80">
-                <span className="text-[10px] font-bold text-slate-800 block flex items-center gap-1">
+                <span className="text-[11px] font-bold text-slate-800 block flex items-center gap-1">
                   <Shield className="w-3 h-3 text-slate-500" />
                   {t.home.household}
                 </span>
                 <span className="text-lg font-black text-slate-800 block mt-0.5">
                   {plan.daily.domestic.toFixed(0)} L/day
                 </span>
-                <span className="text-[9px] text-slate-500 block leading-tight mt-0.5">
+                <span className="text-[11px] text-slate-500 block leading-tight mt-0.5">
                   {t.home.householdDesc}
                 </span>
               </div>
@@ -1527,7 +1528,7 @@ function HouseholdActiveView({
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
                 {t.home.dengueTitle}
               </div>
-              <p className="m-0 leading-relaxed text-emerald-900 text-[10px]">
+              <p className="m-0 leading-relaxed text-emerald-900 text-[11px]">
                 {t.home.dengueDesc}
               </p>
             </div>
@@ -1544,7 +1545,7 @@ function HouseholdActiveView({
                   <span className="text-xs font-black text-slate-900 block leading-tight">
                     {t.home.readinessTitle}
                   </span>
-                  <span className="text-[10px] text-slate-500 font-medium block">
+                  <span className="text-[11px] text-slate-500 font-medium block">
                     {homeStatusMessage.quickTip}
                   </span>
                 </div>
@@ -1594,14 +1595,14 @@ function HouseholdActiveView({
             {/* Quick Log Buttons (Direct State Update) */}
             <div className="pt-2 border-t border-slate-100 space-y-1.5">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider">
+                <span className="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider">
                   {t.home.quickLog}
                 </span>
                 {onSelectTab && (
                   <button
                     type="button"
                     onClick={() => onSelectTab('plan')}
-                    className="text-[10px] font-bold text-sky-600 hover:text-sky-800 cursor-pointer flex items-center gap-0.5"
+                    className="text-[11px] font-bold text-sky-600 hover:text-sky-800 cursor-pointer flex items-center gap-0.5"
                   >
                     <span>{t.home.viewStorageDetails}</span>
                     <ChevronRight className="w-3 h-3" />
@@ -1661,11 +1662,11 @@ function HouseholdActiveView({
               <DrumGauge stored={household.stored} low={lo} high={hi} capacity={plan.capacity} en={lang === 'en'} />
               <div className="space-y-2 text-xs">
                 <div>
-                  <span className="text-[10px] font-bold text-slate-400 block uppercase">
+                  <span className="text-[11px] font-bold text-slate-400 block uppercase">
                     {lang === 'en' ? 'Stored' : 'Naimbak'}
                   </span>
                   <strong className="text-xl font-black text-sky-700">{household.stored} L</strong>
-                  <span className="text-[10px] text-slate-500 font-semibold block">
+                  <span className="text-[11px] text-slate-500 font-semibold block">
                     {wholeDaysOnHand >= 1
                       ? `~${wholeDaysOnHand} ${wholeDaysOnHand === 1 ? (lang === 'en' ? 'day' : 'araw') : t.home.days}`
                       : (household.stored === 0
@@ -1674,13 +1675,13 @@ function HouseholdActiveView({
                   </span>
                 </div>
                 <div>
-                  <span className="text-[10px] font-bold text-slate-400 block uppercase">
+                  <span className="text-[11px] font-bold text-slate-400 block uppercase">
                     {lang === 'en' ? 'Target' : 'Target'}
                   </span>
                   <strong className="text-sm font-bold text-slate-900">{lo === hi ? lo : `${lo}–${hi}`} L</strong>
                 </div>
                 <div>
-                  <span className="text-[10px] font-bold text-slate-400 block uppercase">
+                  <span className="text-[11px] font-bold text-slate-400 block uppercase">
                     {lang === 'en' ? 'Capacity' : 'Kapasidad'}
                   </span>
                   <strong className="text-sm font-bold text-slate-600">{plan.capacity} L</strong>
@@ -1690,7 +1691,7 @@ function HouseholdActiveView({
 
             {/* Paced storage schedule */}
             <div className="p-3.5 rounded-xl bg-sky-50/70 border border-sky-100 space-y-1">
-              <span className="text-[10px] font-extrabold uppercase tracking-wider text-sky-800 block">
+              <span className="text-[11px] font-extrabold uppercase tracking-wider text-sky-800 block">
                 {lang === 'en' ? 'Storage Guide' : 'Gabay sa Pag-iipon'}
               </span>
               {household.stored >= plan.storable ? (
@@ -1710,7 +1711,7 @@ function HouseholdActiveView({
                 </p>
               )}
               {fillBy && !cond.hindsight && (
-                <span className="text-[10px] text-slate-500 block">
+                <span className="text-[11px] text-slate-500 block">
                   {lang === 'en' ? 'Target date: ' : 'Target na petsa: '}
                   {fillBy.toLocaleDateString(lang === 'en' ? 'en-US' : 'en-PH', { month: 'short', day: 'numeric' })}
                 </span>
@@ -1768,7 +1769,7 @@ function HouseholdActiveView({
                       ? `Your Containers (${activeContainers.length})`
                       : `Iyong mga Lalagyan (${activeContainers.length})`}
                   </span>
-                  <span className="text-[10px] text-slate-500 block">
+                  <span className="text-[11px] text-slate-500 block">
                     {lang === 'en'
                       ? `Total Capacity: ${plan.capacity} Liters`
                       : `Kabuuang Kapasidad: ${plan.capacity} Litro`}
@@ -1797,7 +1798,7 @@ function HouseholdActiveView({
                   >
                     <span className="text-sky-700">{item.count}x</span>
                     <span>{item.name}</span>
-                    <span className="text-[10px] text-slate-400 font-semibold">({item.liters * item.count} L)</span>
+                    <span className="text-[11px] text-slate-400 font-semibold">({item.liters * item.count} L)</span>
                   </span>
                 ))}
               </div>
@@ -1817,7 +1818,7 @@ function HouseholdActiveView({
                           <span className="text-xs font-bold text-slate-900 block truncate leading-tight">
                             {item.name}
                           </span>
-                          <span className="text-[10px] text-slate-500 block">
+                          <span className="text-[11px] text-slate-500 block">
                             {lang === 'en'
                               ? `${item.liters} L each · Total: ${item.liters * item.count} L`
                               : `${item.liters} L bawat isa · Kabuuan: ${item.liters * item.count} L`}
@@ -1859,7 +1860,7 @@ function HouseholdActiveView({
 
                 {/* Quick Presets */}
                 <div className="space-y-1.5">
-                  <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 block">
+                  <span className="text-[11px] font-black uppercase tracking-wider text-slate-400 block">
                     {lang === 'en' ? 'Quick Add Presets' : 'Mabilisang Preset'}
                   </span>
                   <div className="grid grid-cols-3 gap-1">
@@ -1873,7 +1874,7 @@ function HouseholdActiveView({
                         <span className="text-[11px] font-bold text-slate-900 truncate">
                           {preset.name}
                         </span>
-                        <span className="text-[9px] text-sky-700 font-semibold">
+                        <span className="text-[11px] text-sky-700 font-semibold">
                           +{preset.liters} L
                         </span>
                       </button>
@@ -1883,7 +1884,7 @@ function HouseholdActiveView({
 
                 {/* Custom Container Adder */}
                 <div className="p-2.5 rounded-xl border border-sky-200 bg-sky-50/60 space-y-2">
-                  <span className="text-[10px] font-black uppercase tracking-wider text-sky-900 block">
+                  <span className="text-[11px] font-black uppercase tracking-wider text-sky-900 block">
                     {lang === 'en' ? 'Add Custom Container' : 'Magdagdag ng Custom Container'}
                   </span>
                   <div className="grid grid-cols-2 gap-1.5">
@@ -1927,14 +1928,14 @@ function HouseholdActiveView({
                   {t.storage.aiAllocationTitle}
                 </h4>
               </div>
-              <span className={`text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-md border ${aiStorageDiagnosis.badgeBg}`}>
+              <span className={`text-[11px] font-extrabold uppercase px-2 py-0.5 rounded-md border ${aiStorageDiagnosis.badgeBg}`}>
                 {aiStorageDiagnosis.badge}
               </span>
             </div>
 
             {/* Smart Daily Quota Breakdown */}
             <div className="space-y-2">
-              <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 block">
+              <span className="text-[11px] font-black uppercase tracking-wider text-slate-400 block">
                 {lang === 'en'
                   ? `Recommended Daily Allocation (${household.members.length} Members)`
                   : `Tamang Arawang Alokasyon (${household.members.length} Tao sa Bahay)`}
@@ -1951,7 +1952,7 @@ function HouseholdActiveView({
                       <strong className="text-xs font-black text-slate-900 block leading-tight">
                         {t.storage.catPotable}
                       </strong>
-                      <span className="text-[10px] text-slate-500 font-medium">
+                      <span className="text-[11px] text-slate-500 font-medium">
                         {t.storage.catPotableSub}
                       </span>
                     </div>
@@ -1962,7 +1963,7 @@ function HouseholdActiveView({
                 </div>
 
                 {/* Context sub-allocations */}
-                <div className="flex flex-wrap gap-1 pt-0.5 text-[9px] font-bold text-slate-600">
+                <div className="flex flex-wrap gap-1 pt-0.5 text-[11px] font-bold text-slate-600">
                   <span className="px-1.5 py-0.5 bg-white rounded border border-sky-100">
                     {t.storage.catPotableTagSphere}
                   </span>
@@ -1999,7 +2000,7 @@ function HouseholdActiveView({
                       <strong className="text-xs font-black text-slate-900 block leading-tight">
                         {t.storage.catHygiene}
                       </strong>
-                      <span className="text-[10px] text-slate-500 font-medium">
+                      <span className="text-[11px] text-slate-500 font-medium">
                         {t.storage.catHygieneSub(household.members.length)}
                       </span>
                     </div>
@@ -2021,7 +2022,7 @@ function HouseholdActiveView({
                       <strong className="text-xs font-black text-slate-900 block leading-tight">
                         {t.storage.catSanitation}
                       </strong>
-                      <span className="text-[10px] text-slate-500 font-medium">
+                      <span className="text-[11px] text-slate-500 font-medium">
                         {t.storage.catSanitationSub}
                       </span>
                     </div>
@@ -2035,7 +2036,7 @@ function HouseholdActiveView({
 
             {/* AI Action Plan Based on Stored Level */}
             <div className="space-y-1.5 pt-1 border-t border-slate-100">
-              <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 block">
+              <span className="text-[11px] font-black uppercase tracking-wider text-slate-400 block">
                 {t.storage.actionPlanTitle}
               </span>
 
@@ -2045,7 +2046,7 @@ function HouseholdActiveView({
                     key={idx}
                     className="p-2.5 rounded-xl border border-slate-200/90 bg-white shadow-2xs flex items-start gap-2.5 text-xs"
                   >
-                    <div className="w-5 h-5 rounded-md bg-sky-100 text-sky-700 font-black text-[10px] flex items-center justify-center shrink-0 mt-0.5">
+                    <div className="w-5 h-5 rounded-md bg-sky-100 text-sky-700 font-black text-[11px] flex items-center justify-center shrink-0 mt-0.5">
                       {idx + 1}
                     </div>
                     <p className="m-0 text-slate-800 font-medium leading-snug">
@@ -2056,6 +2057,7 @@ function HouseholdActiveView({
               </div>
             </div>
           </div>
+          <RefillPoints town={household.lgu} barangay={household.barangay ?? ''} lang={lang} />
         </div>
       )}
 

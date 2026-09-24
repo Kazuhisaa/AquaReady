@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './aquaready.css';
 import {
   Droplets,
@@ -6,18 +6,16 @@ import {
   Bell,
   RotateCw,
   Info,
-  Map,
   X,
   LogOut,
   Smartphone,
   Languages,
   History,
 } from 'lucide-react';
-import { ISABELA_LGUS } from '../data/isabelaMunicipalities';
 import {
-  buildPlan, riskScore, severity, monthsToDrySpell, priorityScore, getHouseholdCapacity,
+  buildPlan, riskScore, severity, getHouseholdCapacity,
 } from '../services/aquaready';
-import { conditions, DATA, REPLAY_MONTHS, type Mode } from './scenario';
+import { conditions, DATA, dataAgeDays, REPLAY_MONTHS, STALE_AFTER_DAYS, type Mode } from './scenario';
 import { ReplayBar } from './ReplayBar';
 import { computeAlerts } from './alerts';
 import { alertText } from './AlertsView';
@@ -26,7 +24,6 @@ import {
   type Household,
   type AppTab,
 } from './HouseholdPanel';
-import { RegionMap, type LguRow } from './RegionMap';
 import { usePwaInstall } from '../pwa';
 import { type Language, TRANSLATIONS } from '../services/i18n';
 
@@ -81,7 +78,7 @@ function LoadingSplash({ onComplete }: { onComplete: () => void }) {
     <div className="absolute inset-0 z-50 bg-gradient-to-b from-sky-950 via-slate-900 to-slate-950 text-white flex flex-col items-center justify-between p-6 sm:p-8 select-none animate-in fade-in duration-300">
       {/* Top Tag */}
       <div className="pt-6 sm:pt-8">
-        <span className="text-[10px] font-black uppercase tracking-widest text-sky-400 bg-sky-950/70 px-3 py-1 rounded-full border border-sky-800/80 shadow-2xs">
+        <span className="text-[11px] font-black uppercase tracking-widest text-sky-400 bg-sky-950/70 px-3 py-1 rounded-full border border-sky-800/80 shadow-2xs">
           DOST-PAGASA · Isabela Province
         </span>
       </div>
@@ -120,7 +117,7 @@ function LoadingSplash({ onComplete }: { onComplete: () => void }) {
           />
         </div>
         <div className="text-center pt-1">
-          <span className="text-[10px] text-slate-500">
+          <span className="text-[11px] text-slate-500">
             Water Planning Guide · Offline Ready
           </span>
         </div>
@@ -144,7 +141,6 @@ export function AquaReadyApp() {
   const [mode, setMode] = useState<Mode>(LIVE_MODE);
   const replay = mode.kind === 'replay';
   const [showSpec, setShowSpec] = useState(false);
-  const [showProvincialModal, setShowProvincialModal] = useState(false);
   const { canInstall, installApp } = usePwaInstall();
   const mainRef = useRef<HTMLElement>(null);
 
@@ -173,18 +169,6 @@ export function AquaReadyApp() {
 
   const activeTown = household?.lgu ?? 'Ilagan';
 
-  // Provincial LGU matrix (Pure Live Mode)
-  const rows: LguRow[] = useMemo(() => ISABELA_LGUS.map((lgu) => {
-    const c = conditions(lgu.name, mode);
-    const score = riskScore(c.risk);
-    return {
-      lgu,
-      score,
-      severity: severity(score),
-      priority: priorityScore(score, lgu.population2020, 0),
-      months: monthsToDrySpell(c.observedRatios, c.forecastRatios),
-    };
-  }), [mode]);
 
   // Current household conditions & computed water plan
   const cond = conditions(activeTown, mode);
@@ -247,7 +231,7 @@ export function AquaReadyApp() {
             <span className="w-2.5 h-2.5 rounded-full bg-slate-800" />
           </div>
           <div className="flex items-center gap-1.5 text-slate-800">
-            <span className="text-[10px] font-bold tracking-tighter">5G</span>
+            <span className="text-[11px] font-bold tracking-tighter">5G</span>
             <div className="w-5 h-2.5 border border-slate-700 rounded-xs p-0.5 flex items-center">
               <div className="w-full h-full bg-slate-900 rounded-2xs" />
             </div>
@@ -272,7 +256,7 @@ export function AquaReadyApp() {
                   <span className="text-base font-black tracking-tight text-slate-900 leading-none">
                     AquaReady
                   </span>
-                  <span className="text-[9px] font-extrabold uppercase px-1.5 py-0.2 rounded-md bg-sky-50 text-sky-700 border border-sky-200">
+                  <span className="text-[11px] font-extrabold uppercase px-1.5 py-0.2 rounded-md bg-sky-50 text-sky-700 border border-sky-200">
                     Isabela
                   </span>
                 </div>
@@ -303,7 +287,7 @@ export function AquaReadyApp() {
                     return next;
                   })
                 }
-                className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-sky-50 hover:bg-sky-100 border border-sky-200 text-sky-800 text-[10px] font-black cursor-pointer transition-all active:scale-95 shadow-2xs"
+                className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-sky-50 hover:bg-sky-100 border border-sky-200 text-sky-800 text-[11px] font-black cursor-pointer transition-all active:scale-95 shadow-2xs"
                 title={t.header.switchLangTooltip}
               >
                 <Languages className="w-3.5 h-3.5 text-sky-600" />
@@ -323,7 +307,13 @@ export function AquaReadyApp() {
                 <button
                   type="button"
                   className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg cursor-pointer transition-colors"
-                  onClick={() => setHousehold(null)}
+                  onClick={() => {
+                    // Erasing is permanent (no backup, no server), so ask first.
+                    const ok = window.confirm(lang === 'en'
+                      ? 'Erase your household profile and stored-water log on this phone? This cannot be undone.'
+                      : 'Burahin ang profile ng pamilya at ang tala ng naipong tubig sa phone na ito? Hindi na ito maibabalik.');
+                    if (ok) setHousehold(null);
+                  }}
                   title={t.header.signout}
                 >
                   <LogOut className="w-4 h-4" />
@@ -338,6 +328,17 @@ export function AquaReadyApp() {
           ref={mainRef}
           className="flex-1 min-h-0 overflow-y-auto overscroll-contain relative no-scrollbar p-2.5 sm:p-3"
         >
+          {!replay && household && !isEditingProfile && dataAgeDays() > STALE_AFTER_DAYS && (() => {
+            const date = new Date(DATA.generatedAt).toLocaleDateString(lang === 'en' ? 'en-US' : 'fil-PH', { month: 'long', day: 'numeric', year: 'numeric' });
+            return (
+              <div role="alert" className="mb-3 p-3 rounded-2xl border-2 border-amber-300 bg-amber-50 text-sm text-amber-950">
+                <strong className="block">{lang === 'en' ? '⚠️ This forecast may be out of date' : '⚠️ Baka luma na ang hulang ito'}</strong>
+                {lang === 'en'
+                  ? `The weather data is from ${date} (${dataAgeDays()} days ago). Treat the risk and dates below with caution until the app is updated.`
+                  : `Ang datos ng panahon ay mula ${date} (${dataAgeDays()} araw na ang nakaraan). Mag-ingat sa panganib at mga petsa sa ibaba hangga't hindi pa na-a-update ang app.`}
+              </div>
+            );
+          })()}
           {replay && household && !isEditingProfile && (
             <ReplayBar month={mode.month} onMonth={(m) => setMode({ kind: 'replay', month: m })} town={household.lgu} lang={lang} onExit={() => setMode(LIVE_MODE)} />
           )}
@@ -376,7 +377,7 @@ export function AquaReadyApp() {
               <div className={`p-1 rounded-xl transition-all ${tab === 'home' ? 'bg-sky-50' : ''}`}>
                 <Home className="w-5 h-5" />
               </div>
-              <span className="text-[10px] tracking-tight">{t.tabs.home}</span>
+              <span className="text-[11px] tracking-tight">{t.tabs.home}</span>
             </button>
 
             <button
@@ -394,7 +395,7 @@ export function AquaReadyApp() {
               <div className={`p-1 rounded-xl transition-all ${tab === 'plan' ? 'bg-sky-50' : ''}`}>
                 <Droplets className="w-5 h-5" />
               </div>
-              <span className="text-[10px] tracking-tight">{t.tabs.plan}</span>
+              <span className="text-[11px] tracking-tight">{t.tabs.plan}</span>
             </button>
 
             <button
@@ -412,10 +413,10 @@ export function AquaReadyApp() {
               <div className={`relative p-1 rounded-xl transition-all ${tab === 'alerts' ? 'bg-sky-50' : ''}`}>
                 <Bell className="w-5 h-5" />
                 {unread > 0 && (
-                  <span className="absolute -top-1 -right-1.5 min-w-4 h-4 px-1 rounded-full bg-rose-500 text-white text-[9px] font-black grid place-items-center">{unread}</span>
+                  <span className="absolute -top-1 -right-1.5 min-w-4 h-4 px-1 rounded-full bg-rose-500 text-white text-[11px] font-black grid place-items-center">{unread}</span>
                 )}
               </div>
-              <span className="text-[10px] tracking-tight">{t.tabs.alerts}</span>
+              <span className="text-[11px] tracking-tight">{t.tabs.alerts}</span>
             </button>
 
             <button
@@ -433,7 +434,7 @@ export function AquaReadyApp() {
               <div className={`p-1 rounded-xl transition-all ${tab === 'checkin' ? 'bg-sky-50' : ''}`}>
                 <RotateCw className="w-5 h-5" />
               </div>
-              <span className="text-[10px] tracking-tight">{t.tabs.profile}</span>
+              <span className="text-[11px] tracking-tight">{t.tabs.profile}</span>
             </button>
           </nav>
         )}
@@ -444,15 +445,6 @@ export function AquaReadyApp() {
 
       {/* Desktop Helper Toolbar below the Smartphone */}
       <div className="mt-4 flex flex-wrap items-center justify-center gap-4 text-xs text-slate-400 max-w-[430px] w-full px-4 text-center">
-        <button
-          type="button"
-          className="text-sky-400 hover:text-sky-300 font-bold flex items-center gap-1.5 cursor-pointer underline transition-colors"
-          onClick={() => setShowProvincialModal(true)}
-        >
-          <Map className="w-3.5 h-3.5" />
-          <span>Provincial Map</span>
-        </button>
-        <span>·</span>
         <span>15 L/day Goal</span>
         {canInstall && (
           <>
@@ -524,51 +516,6 @@ export function AquaReadyApp() {
         </div>
       )}
 
-      {/* Modal: Provincial Climate Risk Map */}
-      {showProvincialModal && (
-        <div
-          className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-md"
-          onClick={() => setShowProvincialModal(false)}
-        >
-          <div
-            className="max-w-2xl w-full p-5 sm:p-6 shadow-2xl bg-white border border-slate-200 rounded-3xl text-slate-900 overflow-y-auto max-h-[90vh] space-y-4"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex justify-between items-start border-b border-slate-100 pb-2">
-              <div>
-                <h3 className="text-base font-black m-0 text-slate-900">
-                  Isabela Province Risk Map
-                </h3>
-                <p className="text-xs m-0 text-slate-500">
-                  Climate vulnerability across 37 municipalities
-                </p>
-              </div>
-              <button
-                type="button"
-                className="p-1 text-slate-400 hover:text-slate-700 rounded-lg cursor-pointer"
-                onClick={() => setShowProvincialModal(false)}
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <div className="rounded-2xl border border-slate-200 overflow-hidden bg-slate-50">
-              <RegionMap rows={rows} selected={activeTown} onSelect={() => {}} />
-            </div>
-
-            <div className="flex justify-between items-center text-xs text-slate-500 pt-1">
-              <span>Household locked to: <strong className="text-sky-700 font-bold">{activeTown}</strong></span>
-              <button
-                type="button"
-                className="py-1.5 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition-colors cursor-pointer"
-                onClick={() => setShowProvincialModal(false)}
-              >
-                Back to App
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

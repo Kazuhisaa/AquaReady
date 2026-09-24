@@ -163,7 +163,7 @@ export function RainTimeline({ months, hindsight, en = true }: { months: Timelin
         {/* reference lines: 100% = usual month, 80% = PAGASA "below normal" */}
         {[1, 0.8].map((r) => (
           <div key={r} className={`absolute inset-x-0 border-t ${r === 1 ? 'border-slate-300' : 'border-dashed border-amber-500'}`} style={{ top: 16 + y(r) }}>
-            <span className={`absolute right-0 -top-3.5 text-[9px] font-bold ${r === 1 ? 'text-slate-400' : 'text-amber-600'}`}>
+            <span className={`absolute right-0 -top-3.5 text-[11px] font-bold ${r === 1 ? 'text-slate-400' : 'text-amber-600'}`}>
               {r === 1 ? (en ? 'normal' : 'karaniwan') : '80%'}
             </span>
           </div>
@@ -174,7 +174,7 @@ export function RainTimeline({ months, hindsight, en = true }: { months: Timelin
             const fc = m.kind === 'forecast';
             return (
               <div key={m.month} className="flex-1 min-w-0 flex flex-col items-center justify-end h-full">
-                <span className="text-[9px] font-bold text-slate-600 leading-none mb-0.5">{Math.round(m.ratio * 100)}</span>
+                <span className="text-[11px] font-bold text-slate-600 leading-none mb-0.5">{Math.round(m.ratio * 100)}</span>
                 <div className="w-full rounded-t" style={{
                   height: Math.max(3, H - y(m.ratio)),
                   background: color(m.ratio),
@@ -186,7 +186,7 @@ export function RainTimeline({ months, hindsight, en = true }: { months: Timelin
             );
           })}
         </div>
-        <div className="absolute inset-x-0 bottom-0 flex gap-1 text-[10px] text-slate-500" aria-hidden="true">
+        <div className="absolute inset-x-0 bottom-0 flex gap-1 text-[11px] text-slate-500" aria-hidden="true">
           {shown.map((m, i) => (
             <span key={m.month} className={`flex-1 min-w-0 text-center ${start + i === first ? 'font-extrabold text-slate-900' : ''}`}>{label(m.month)}</span>
           ))}
@@ -199,6 +199,11 @@ export function RainTimeline({ months, hindsight, en = true }: { months: Timelin
         {' · '}% {en ? 'of usual rain for that month' : 'ng karaniwang ulan sa buwang iyon'}
         {dryAt >= 0 && (en ? `. Red outline: dry spell reached (${monthLabel(months[dryAt].month, true)}).` : `. Pulang guhit: umabot sa tagtuyot (${MONTHS_TL[Number(months[dryAt].month.slice(5)) - 1]} ${months[dryAt].month.slice(0, 4)}).`)}
       </figcaption>
+      <p className="text-[11px] text-slate-600 m-0">
+        {en
+          ? 'PAGASA calls it a dry spell when rain stays below 80% of usual for 3 months in a row, or below 40% for 2 months.'
+          : 'Tagtuyot (dry spell) ayon sa PAGASA: 3 sunod na buwan sa ilalim ng 80% ng karaniwang ulan, o 2 buwan sa ilalim ng 40%.'}
+      </p>
     </figure>
   );
 }

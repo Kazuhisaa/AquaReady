@@ -9,7 +9,6 @@ export interface Translations {
     plan: string;
     alerts: string;
     profile: string;
-    provincial: string;
   };
   header: {
     liveFeed: string;
@@ -135,7 +134,6 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       plan: 'Storage',
       alerts: 'Alerts',
       profile: 'Check-In',
-      provincial: 'Province',
     },
     header: {
       liveFeed: 'Live Feed',
@@ -292,7 +290,6 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       plan: 'Imbakan',
       alerts: 'Abiso',
       profile: 'Check-In',
-      provincial: 'Lalawigan',
     },
     header: {
       liveFeed: 'Live Feed',
