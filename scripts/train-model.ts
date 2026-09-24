@@ -1,4 +1,4 @@
-// Trains Wave's dry-spell early-warning model: logistic regression on 30+ years of Isabela data.
+// Trains AquaReady's dry-spell early-warning model: logistic regression on 30+ years of Isabela data.
 // Run after `npm run data`:  npm run train   → writes src/data/riskModel.json
 //
 // Question: at the end of month t, will this town reach a PAGASA dry spell in months t+1..t+3?

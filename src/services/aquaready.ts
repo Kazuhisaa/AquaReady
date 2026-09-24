@@ -1,4 +1,4 @@
-// Wave formulas.
+// AquaReady formulas — see AQUAREADY_SPEC.md.
 // [S] = published standard (cite it). [D] = design default (needs health/DRRM advisor sign-off).
 
 export type AgeBracket = 'infant' | 'child' | 'adult' | 'elderly';

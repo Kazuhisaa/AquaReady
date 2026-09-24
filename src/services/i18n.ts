@@ -1,4 +1,4 @@
-// Wave Internationalization (i18n) Engine
+// AquaReady Internationalization (i18n) Engine
 // Default: English ('en'). Option to switch to Tagalog ('tl').
 
 export type Language = 'en' | 'tl';
@@ -138,7 +138,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     header: {
       liveFeed: 'Live Feed',
       offlineReady: 'Offline Ready',
-      appTitle: 'Wave',
+      appTitle: 'AquaReady',
       appSubtitle: 'Household Water Planning App',
       switchLangTooltip: 'Palitan sa Tagalog / Filipino',
       signout: 'Sign Out / Reset Profile',
@@ -294,7 +294,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     header: {
       liveFeed: 'Live Feed',
       offlineReady: 'Offline Ready',
-      appTitle: 'Wave',
+      appTitle: 'AquaReady',
       appSubtitle: 'Household Water Planning App',
       switchLangTooltip: 'Switch to English',
       signout: 'Mag-sign Out / I-reset ang Profile',
