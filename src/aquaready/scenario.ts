@@ -134,7 +134,7 @@ const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', '
 export const monthLabel = (ym: string, withYear = false) =>
   MONTHS[Number(ym.slice(5)) - 1] + (withYear ? ` ${ym.slice(0, 4)}` : '');
 
-// Backtest shown in replay: when would AquaReady have warned, and when did PAGASA's dry-spell mark actually hit?
+// Backtest shown in replay: when would Wave have warned, and when did PAGASA's dry-spell mark actually hit?
 export function earlyWarning(name: string, score: (c: Conditions) => number) {
   const d = DATA.lgus.find((l) => l.name === name)!;
   const firstAt = (min: number) => REPLAY_MONTHS.find((m) => score(conditions(name, { kind: 'replay', month: m })) >= min) ?? null;

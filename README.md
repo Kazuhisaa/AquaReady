@@ -1,8 +1,8 @@
-# AquaReady
+# Wave
 
 **Household water plan for El Niño dry spells, Isabela Province pilot.**
 
-A family enters their town, who lives with them, and what water containers they have. AquaReady tells them:
+A family enters their town, who lives with them, and what water containers they have. Wave tells them:
 
 - **how much water to store**, as a range (e.g. *Store 440–625 L*),
 - **when to start and how fast** (e.g. *add 20 L every 3 days*),
@@ -135,7 +135,7 @@ The offline service worker only runs in this production build, not in `npm run d
 
 **Netlify**: same idea. **Add new site → Import from GitHub**, build command `npm run build`, publish directory `dist`.
 
-> GitHub Pages is **not** recommended as-is: it serves the app under `/AquaReady/`, while the app and its service worker expect to be at the site root `/`.
+> GitHub Pages is **not** recommended as-is: it serves the app under `/Wave/`, while the app and its service worker expect to be at the site root `/`.
 
 ### Install on a phone
 

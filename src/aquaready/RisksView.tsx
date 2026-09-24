@@ -119,8 +119,8 @@ export function RisksView({ plan, cond, stored, lang, onOpenPlan }: {
         <p className="inline-flex items-center gap-1.5 text-[11px] font-bold text-sky-800 bg-white/70 border border-sky-200 rounded-full px-2.5 py-1 mt-2.5 mb-0">
           <span aria-hidden>🤖</span>
           {cond.hindsight
-            ? (en ? `AquaReady AI · as of ${monthLabel(cond.asOf, true)} (replay)` : `AquaReady AI · noong ${monthLabel(cond.asOf, true)} (balik-tanaw)`)
-            : en ? `AquaReady AI forecast · 5 data sources · ${updated}` : `Hula ng AquaReady AI · 5 data source · ${updated}`}
+            ? (en ? `Wave AI · as of ${monthLabel(cond.asOf, true)} (replay)` : `Wave AI · noong ${monthLabel(cond.asOf, true)} (balik-tanaw)`)
+            : en ? `Wave AI forecast · 5 data sources · ${updated}` : `Hula ng Wave AI · 5 data source · ${updated}`}
         </p>
       </Card>
 

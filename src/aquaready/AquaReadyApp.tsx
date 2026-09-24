@@ -59,7 +59,7 @@ function LoadingSplash({ onComplete }: { onComplete: () => void }) {
 
     const t3 = setTimeout(() => {
       setProgress(100);
-      setStatusText('Launching AquaReady...');
+      setStatusText('Launching Wave...');
     }, 1400);
 
     const t4 = setTimeout(() => {
@@ -96,7 +96,7 @@ function LoadingSplash({ onComplete }: { onComplete: () => void }) {
 
         <div>
           <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white m-0">
-            AquaReady
+            Wave
           </h1>
           <p className="text-xs text-sky-200/80 mt-1 font-medium m-0">
             Household Water Planning App
@@ -151,7 +151,7 @@ export function AquaReadyApp() {
   const t = TRANSLATIONS[lang];
 
   useEffect(() => {
-    document.title = 'AquaReady · Household Water Planning App';
+    document.title = 'Wave · Household Water Planning App';
   }, []);
 
   const setHousehold = (h: Household | null) => {
@@ -255,7 +255,7 @@ export function AquaReadyApp() {
               <div>
                 <div className="flex items-center gap-1.5">
                   <span className="text-base font-black tracking-tight text-slate-900 leading-none">
-                    AquaReady
+                    Wave
                   </span>
                   <span className="text-[11px] font-extrabold uppercase px-1.5 py-0.2 rounded-md bg-sky-50 text-sky-700 border border-sky-200">
                     Isabela
@@ -474,7 +474,7 @@ export function AquaReadyApp() {
           >
             <div className="flex justify-between items-start border-b border-slate-100 pb-2">
               <div>
-                <h3 className="text-base font-black m-0 text-slate-900">About AquaReady</h3>
+                <h3 className="text-base font-black m-0 text-slate-900">About Wave</h3>
                 <p className="text-xs m-0 text-slate-500">Water resilience standards & datasets</p>
               </div>
               <button
@@ -492,7 +492,7 @@ export function AquaReadyApp() {
                   Sphere Standard (15 L/person/day)
                 </strong>
                 <p className="m-0 text-[11px]">
-                  Global humanitarian floor (3 L drinking/cooking + 12 L hygiene). AquaReady adjusts for infants, pregnancy, and sickness.
+                  Global humanitarian floor (3 L drinking/cooking + 12 L hygiene). Wave adjusts for infants, pregnancy, and sickness.
                 </p>
               </div>
 

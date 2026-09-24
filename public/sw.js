@@ -1,6 +1,6 @@
-// AquaReady service worker: works offline after the first visit.
+// Wave service worker: works offline after the first visit.
 // Bump VERSION when this file changes; built assets are content-hashed, so they never go stale.
-const VERSION = 'aquaready-v1';
+const VERSION = 'aquaready-v2'; // v2: app renamed to Wave (manifest changed)
 const SHELL = ['/', '/index.html', '/manifest.json', '/favicon.svg', '/icons/icon-192.png', '/icons/icon-512.png'];
 
 self.addEventListener('install', (event) => {
